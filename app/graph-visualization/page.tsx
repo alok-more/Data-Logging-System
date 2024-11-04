@@ -414,7 +414,6 @@
 
 'use client'
 
-
 import { useEffect, useState } from 'react';
 import { Line, Bar, Scatter, Pie } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
@@ -575,7 +574,7 @@ export default function GraphVisualization() {
     <DashboardLayout>
       <div className="flex flex-col items-center justify-center bg-white p-6 rounded-lg shadow-md mx-auto mb-6">
         <h1 className="text-2xl font-semibold mb-4 text-gray-800 text-center">Graph Visualization</h1>
-        <p className="text-gray-600 text-center mb-2">Here you can view graphical representations of data.</p>
+        <p className="text-gray-600 text-center mb-2">Here you can visualize the graphs and charts of the temperature and humidity</p>
       </div>
 
       <div className="mb-8">

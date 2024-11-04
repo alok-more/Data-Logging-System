@@ -25,7 +25,6 @@ import DashboardLayout from '../organization-dashboard/page';
 import { supabase } from '../../supabaseClient';
 import { Chart, registerables } from 'chart.js';
 import { Line, Bar, Scatter } from 'react-chartjs-2';
-import { Tooltip } from 'react-tooltip';
 import 'react-tooltip/dist/react-tooltip.css';
 
 // Register all necessary components from Chart.js
@@ -220,9 +219,9 @@ export default function Analysis() {
 
   return (
     <DashboardLayout>
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h1 className="text-2xl font-semibold mb-4 text-gray-800">Analysis</h1>
-        <p className="text-gray-600">Analyze your organization's data effectively.</p>
+      <div className="p-6 md:p-8 rounded-lg shadow-md flex flex-col items-center bg-gradient-to-r from-gray-50 to-gray-100">
+        <h1 className="text-2xl md:text-3xl font-bold mb-2 text-gray-900">Analysis & Predications</h1>
+        <p className="text-gray-600 mb-4 text-center">Analyze and visualize data and get predictions here</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-6">
         {loading ? (

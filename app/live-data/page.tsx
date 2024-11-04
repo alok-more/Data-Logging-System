@@ -129,7 +129,7 @@ export default function LiveData() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:5000/read-holding-registers");
+      const response = await fetch("http://192.168.0.106:5000/read-holding-registers");
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
@@ -199,12 +199,13 @@ export default function LiveData() {
 
   return (
     <DashboardLayout>
-      <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg transition-all duration-300">
+      <div className="bg-white p-6 rounded-lg shadow-lg transition-all duration-300">
         <h1 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800 text-center">Live Data</h1>
-        <p className="text-gray-600 mb-6 text-center text-lg">
+        <p className="text-gray-600 mb-4 text-center text-lg">
           Here you can view live data of the Temperature and Humidity sensors.
         </p>
 
+        </div>
         {loading && (
           <div className="flex items-center justify-center">
             <svg
@@ -265,7 +266,6 @@ export default function LiveData() {
               },
             }} />
           </div>
-        </div>
 
         <div className="mt-8">
           <h2 className="text-xl font-semibold mb-2 text-gray-800">Humidity Over Time</h2>

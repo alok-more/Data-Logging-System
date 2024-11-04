@@ -29,7 +29,7 @@ export default function SignIn() {
       } else {
         // Redirect based on the user type
         if (data.dashboard === 'organization') {
-          router.push('/organization-dashboard');
+          router.push('/live-data');
         } else if (data.dashboard === 'employee') {
           router.push('/employee-dashboard');
         }
