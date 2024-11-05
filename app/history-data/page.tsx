@@ -467,14 +467,15 @@ export default function HistoryData() {
   return (
     <DashboardLayout>
       <div className="bg-gray-100">
-        <div className=" mx-auto p-2">
+        <div className=" mx-auto p-4">
           <div className="bg-white sm:p-8 rounded-lg shadow-lg mb-8">
-            <div className="text-center max-w-2xl mx-auto mb-8">
-              <h1 className="text-3xl sm:text-4xl font-bold text-gray-700 mb-4">History Data</h1>
-              <p className="text-gray-600 mb-6">Explore historical records of temperature and humidity sensor data.</p>
-            </div>
+          <div className="flex flex-col items-center justify-center bg-white p-6 rounded-lg shadow-md mx-auto mb-6">
+            <h1 className="text-2xl font-semibold mb-4 text-gray-800 text-center">Historical Data</h1>
+            <p className="text-gray-600 text-center mb-2">Here you can view and analyze historical data and also graphs</p>
+          </div>
 
             {/* Date Range Inputs */}
+          </div>
             <div className="mb-6 flex flex-col sm:flex-row justify-center items-center space-x-4">
               <div className="flex flex-col mx-2 mb-4 sm:mb-0">
                 <label className="text-gray-700 font-medium">Start Timestamp</label>
@@ -550,7 +551,6 @@ export default function HistoryData() {
                 </div>
               )}
             </div>
-          </div>
         </div>
       </div>
     </DashboardLayout>

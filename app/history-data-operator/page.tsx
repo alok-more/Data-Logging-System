@@ -110,11 +110,11 @@ export default function HistoryData() {
         <div className="bg-gray-100">
           <div className="max-w-7xl mx-auto p-4">
             <div className="bg-white sm:p-8 rounded-lg shadow-lg mb-8">
-              <div className="text-center max-w-2xl mx-auto mb-8">
+              <div className="text-center max-w-2xl mx-auto mb-6">
                 <h1 className="text-3xl sm:text-4xl font-bold text-gray-700 mb-4">History Data</h1>
                 <p className="text-gray-600 mb-6">Explore historical records of temperature and humidity sensor data.</p>
-              </div>
-  
+              </div> 
+            </div>
               {/* Date Range Inputs */}
               <div className="mb-6 flex flex-col sm:flex-row justify-center items-center space-x-4">
                 <div className="flex flex-col mx-2 mb-4 sm:mb-0">
@@ -191,7 +191,6 @@ export default function HistoryData() {
                   </div>
                 )}
               </div>
-            </div>
           </div>
         </div>
       </DashboardLayout>
