@@ -129,7 +129,7 @@ export default function LiveData() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://192.168.0.106:5000/read-holding-registers");
+      const response = await fetch("http://localhost:5000/read-holding-registers");
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
