@@ -27,7 +27,7 @@ export default function LiveData() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://192.168.214.117:5000/read-holding-registers");
+      const response = await fetch("http://localhost:5000/read-holding-registers");
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
