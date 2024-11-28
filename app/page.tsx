@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 export default function SignIn() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -13,7 +14,7 @@ export default function SignIn() {
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
-    setLoading(true); // Start loading
+    setLoading(true);
 
     try {
       const res = await fetch('/api/signin', {
@@ -29,6 +30,7 @@ export default function SignIn() {
       if (!res.ok) {
         setError(data.error || 'Something went wrong');
       } else {
+        // Redirect based on user dashboard type
         if (data.dashboard === 'organization') {
           router.push('/live-data');
         } else if (data.dashboard === 'employee') {
@@ -38,7 +40,7 @@ export default function SignIn() {
     } catch (err) {
       setError('Failed to sign in. Please try again.');
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -47,10 +49,10 @@ export default function SignIn() {
       <div className="bg-white p-8 rounded-lg shadow-2xl flex flex-col md:flex-row w-full max-w-lg md:max-w-3xl transform transition-transform duration-500 hover:scale-105">
         {/* Logo Section */}
         <div className="flex items-center justify-center w-full md:w-1/2 p-4 animate__animated animate__fadeInLeft">
-          <img 
-            src="/logo.png" 
-            alt="Company Logo" 
-            className="w-full max-w-xs h-auto object-contain animate__animated animate__zoomIn" 
+          <img
+            src="/logo.png"
+            alt="Company Logo"
+            className="w-full max-w-xs h-auto object-contain animate__animated animate__zoomIn"
           />
         </div>
 
@@ -58,6 +60,7 @@ export default function SignIn() {
         <div className="w-full md:w-1/2 p-6 animate__animated animate__fadeInRight">
           <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800 animate__animated animate__fadeInDown">Welcome Back</h2>
           <form onSubmit={handleSignIn} className="space-y-4">
+            {/* Email Field */}
             <div className="mb-4">
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email
@@ -72,25 +75,41 @@ export default function SignIn() {
               />
             </div>
 
+            {/* Password Field */}
             <div className="mb-4">
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
               </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="mt-1 text-gray-800 px-3 py-2 border border-gray-300 rounded-lg shadow-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="mt-1 text-gray-800 px-3 py-2 border border-gray-300 rounded-lg shadow-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <label className="flex items-center mt-2 text-sm text-gray-700">
+                  <input
+                    type="checkbox"
+                    checked={showPassword}
+                    onChange={(e) => setShowPassword(e.target.checked)}
+                    className="mr-2"
+                  />
+                  Show Password
+                </label>
+              </div>
             </div>
 
+            {/* Error Message */}
             {error && <p className="text-red-500 text-sm">{error}</p>}
 
+            {/* Submit Button */}
             <button
               type="submit"
-              className={`w-full py-2 px-4 bg-gray-700 text-white font-semibold rounded-lg shadow-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-300 transform ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`w-full py-2 px-4 bg-gray-700 text-white font-semibold rounded-lg shadow-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-300 transform ${
+                loading ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
               disabled={loading}
             >
               {loading ? (

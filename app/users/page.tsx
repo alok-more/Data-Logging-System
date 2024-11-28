@@ -8,18 +8,24 @@ export default function Users() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState({ id: '', First_Name: '', Last_Name: '', Email: '', isAdmin: false });
+  const [formData, setFormData] = useState({
+    First_Name: '',
+    Last_Name: '',
+    Email: '',
+    Password: '', // New field
+    isAdmin: false,
+  });
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
+  // Fetch Users
   useEffect(() => {
     const fetchUsers = async () => {
       setLoading(true);
-      const { data, error } = await supabase.from('Users').select('*');
-
+      const { data, error } = await supabase.from('Users').select('id, First_Name, Last_Name, Email, isAdmin');
       if (error) {
         console.error('Error fetching users:', error);
       } else {
-        setUsers(data);
+        setUsers(data || []);
       }
       setLoading(false);
     };
@@ -27,37 +33,58 @@ export default function Users() {
     fetchUsers();
   }, []);
 
+  // Add User
   const handleAddUser = async () => {
+    if (!formData.First_Name || !formData.Last_Name || !formData.Email || !formData.Password) {
+      alert('Please fill all required fields.');
+      return;
+    }
+
     const { data, error } = await supabase.from('Users').insert([formData]);
     if (error) {
       console.error('Error adding user:', error);
     } else if (data) {
       setUsers([...users, ...data]);
       setShowModal(false);
-      setFormData({ id: '', First_Name: '', Last_Name: '', Email: '', isAdmin: false });
+      setFormData({ First_Name: '', Last_Name: '', Email: '', Password: '', isAdmin: false });
     }
   };
 
+  // Update User
   const handleUpdateUser = async () => {
-    const { data, error } = await supabase.from('Users').update(formData).match({ id: currentUserId });
+    if (!formData.First_Name || !formData.Last_Name || !formData.Email) {
+      alert('Please fill all required fields.');
+      return;
+    }
+
+    const { data, error } = await supabase.from('Users').update(formData).eq('id', currentUserId);
     if (error) {
       console.error('Error updating user:', error);
     } else {
-      setUsers(users.map(user => user.id === currentUserId ? { ...user, ...formData } : user));
+      setUsers(users.map((user) => (user.id === currentUserId ? { ...user, ...formData } : user)));
       setShowModal(false);
-      setFormData({ id: '', First_Name: '', Last_Name: '', Email: '', isAdmin: false });
+      setFormData({ First_Name: '', Last_Name: '', Email: '', Password: '', isAdmin: false });
       setCurrentUserId(null);
     }
   };
 
+  // Edit User
   const handleEditUser = (user: any) => {
-    setFormData({ id: user.id, First_Name: user.First_Name, Last_Name: user.Last_Name, Email: user.Email, isAdmin: user.isAdmin });
+    setFormData({
+      First_Name: user.First_Name,
+      Last_Name: user.Last_Name,
+      Email: user.Email,
+      Password: '', // Password not pre-filled for security reasons
+      isAdmin: user.isAdmin,
+    });
     setCurrentUserId(user.id);
     setShowModal(true);
   };
 
+  // UI Loading State
   if (loading) return <div className="text-center text-lg font-semibold mt-10">Loading...</div>;
 
+  // Card Color Logic
   const adminColorClass = 'bg-gradient-to-r from-gray-700 to-gray-900';
   const nonAdminColorClass = 'bg-gradient-to-r from-teal-800 to-cyan-900';
   const getColorForUser = (isAdmin: boolean) => (isAdmin ? adminColorClass : nonAdminColorClass);
@@ -77,33 +104,24 @@ export default function Users() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {users.map((user, index) => {
-              const colorClass = getColorForUser(user.isAdmin);
-
-              return (
-                <div
-                  key={index}
-                  className={`${colorClass} text-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-shadow duration-300 relative overflow-hidden w-full max-w-[500px] mx-auto transform hover:-translate-y-2`}
+            {users.map((user) => (
+              <div
+                key={user.id}
+                className={`${getColorForUser(user.isAdmin)} text-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-shadow duration-300 relative overflow-hidden w-full max-w-[500px] mx-auto transform hover:-translate-y-2`}
+              >
+                <p className="text-2xl font-extrabold mb-4">
+                  {user.First_Name} {user.Last_Name}
+                </p>
+                <p className="text-gray-200 text-lg mb-3">{user.Email}</p>
+                <p className="text-gray-300 text-sm mb-2">Admin: {user.isAdmin ? 'Yes' : 'No'}</p>
+                <button
+                  className="bg-white text-black font-semibold py-3 px-6 rounded-lg mt-4 hover:bg-gray-200 transition duration-300"
+                  onClick={() => handleEditUser(user)}
                 >
-                  <div className="absolute top-2 left-0 w-full h-16 bg-black bg-opacity-30 rounded-t-2xl"></div>
-                  <p className="text-white text-2xl font-extrabold mb-4">
-                    {user.First_Name} {user.Last_Name}
-                  </p>
-                  <p className="text-gray-200 text-lg mb-3">{user.Email}</p>
-                  <p className="text-gray-300 text-sm mb-2">Admin: {user.isAdmin ? 'Yes' : 'No'}</p>
-
-                  <div className="h-1 w-full bg-gradient-to-r from-cyan-500 to-teal-500 rounded-full my-4"></div>
-
-                  <button
-                    className="bg-white text-black font-semibold py-3 px-6 rounded-lg mt-4 hover:bg-gradient-to-r hover:from-gray-200 hover:to-gray-300 transition duration-300 ease-in-out transform hover:scale-105 shadow-md"
-                    onClick={() => handleEditUser(user)}
-                  >
-                    Change Details
-                  </button>
-                  <div className="absolute bottom-0 right-0 w-32 h-32 bg-white bg-opacity-10 rounded-full -mr-16 -mb-16"></div>
-                </div>
-              );
-            })}
+                  Edit User
+                </button>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -116,46 +134,44 @@ export default function Users() {
                 <input
                   type="text"
                   placeholder="First Name"
-                  className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                   value={formData.First_Name}
                   onChange={(e) => setFormData({ ...formData, First_Name: e.target.value })}
+                  className="w-full p-3 mb-4 border border-gray-300 rounded-lg text-gray-800"
                 />
                 <input
                   type="text"
                   placeholder="Last Name"
-                  className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                   value={formData.Last_Name}
                   onChange={(e) => setFormData({ ...formData, Last_Name: e.target.value })}
+                  className="w-full p-3 mb-4 border border-gray-300 rounded-lg text-gray-800"
                 />
                 <input
                   type="email"
                   placeholder="Email"
-                  className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                   value={formData.Email}
                   onChange={(e) => setFormData({ ...formData, Email: e.target.value })}
+                  className="w-full p-3 mb-4 border border-gray-300 rounded-lg text-gray-800"
                 />
-                <label className="flex items-center mb-4">
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={formData.Password}
+                  onChange={(e) => setFormData({ ...formData, Password: e.target.value })}
+                  className="w-full p-3 mb-4 border border-gray-300 rounded-lg text-gray-800"
+                />
+                <label className="flex items-center">
                   <input
                     type="checkbox"
-                    className="mr-2"
                     checked={formData.isAdmin}
                     onChange={(e) => setFormData({ ...formData, isAdmin: e.target.checked })}
                   />
-                  <span className="text-gray-700">Admin</span>
+                  <span className="ml-2 text-gray-800 ">Admin</span>
                 </label>
-                <div className="flex justify-between">
-                  <button
-                    type="button"
-                    onClick={currentUserId ? handleUpdateUser : handleAddUser}
-                    className="bg-gray-800 text-white font-semibold py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-300"
-                  >
+                <div className="flex justify-between mt-4">
+                  <button type="button" onClick={currentUserId ? handleUpdateUser : handleAddUser} className="bg-gray-800 text-white px-4 py-2 rounded">
                     {currentUserId ? 'Update User' : 'Add User'}
                   </button>
-                  <button
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                    className="bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-400 transition duration-300"
-                  >
+                  <button type="button" onClick={() => setShowModal(false)} className="bg-red-700 px-4 py-2 rounded">
                     Cancel
                   </button>
                 </div>

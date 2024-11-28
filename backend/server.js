@@ -1,36 +1,3 @@
-    // // backend/server.js
-
-    // const ModbusRTU = require("modbus-serial");
-    // const express = require("express");
-    // const cors = require("cors");
-
-    // const app = express();
-    // const port = 5000;
-    // app.use(cors());
-
-    // const client = new ModbusRTU();
-
-    // // Connect to Modbus device
-    // client.connectRTUBuffered("/dev/ttyUSB0", { baudRate: 9600, parity: 'none' })  // adjust to your serial port
-    //   .then(() => client.setID(1))
-    //   .catch((err) => console.error("Connection Error:", err));
-
-    // // Endpoint to read holding registers
-    // app.get("/read-holding-registers", async (req, res) => {
-    //   try {
-    //     const data = await client.readHoldingRegisters(0, 2);  // Read 10 registers from address 0
-    //     res.json(data.data);
-    //   } catch (error) {
-    //     res.status(500).send("Error reading registers: " + error);
-    //   }
-    // });
-
-    // app.listen(port, () => {
-    //   console.log(`Server running on http://localhost:${port}`);
-    // });
-
-
-
     const ModbusRTU = require("modbus-serial");
     const express = require("express");
     const cors = require("cors");
@@ -59,14 +26,19 @@
             const data = await client.readHoldingRegisters(0, 2); // Read 2 registers from address 0
             const registerValues = data.data;
     
-            // Assuming the registers are in integer format and need to be converted to float
+            // Convert register values
             const value1 = (registerValues[0] / 10).toFixed(1); // Adjust division as per your scaling needs
             const value2 = (registerValues[1] / 10).toFixed(1); // Adjust division as per your scaling needs
+            
+            // Get current date and time in IST
+            const date = new Date();
+            const istOffset = 5.5 * 60 * 60 * 1000; // IST offset in milliseconds
+            const istDate = new Date(date.getTime() + istOffset);
     
             // Insert data into Supabase
             const { error } = await supabase
                 .from('Data_Log')
-                .insert([{ timestamp: new Date(), value1: parseFloat(value1), value2: parseFloat(value2) }]);
+                .insert([{ timestamp: istDate.toISOString(), value1: parseFloat(value1), value2: parseFloat(value2) }]);
     
             if (error) {
                 console.error("Error inserting data into Supabase:", error);
@@ -79,7 +51,7 @@
     }
     
     // Set an interval to read and store data every 15 seconds
-    setInterval(readAndStoreRegisters, 15000);
+    setInterval(readAndStoreRegisters, 60000);
     
     // Endpoint to read holding registers
     app.get("/read-holding-registers", async (req, res) => {
@@ -101,14 +73,21 @@
         }
     
         try {
+            // Convert start and end to IST
+            const startDate = new Date(start);
+            const endDate = new Date(end);
+            const istOffset = 5.5 * 60 * 60 * 1000; // IST offset in milliseconds
+            const istStart = new Date(startDate.getTime() - istOffset).toISOString();
+            const istEnd = new Date(endDate.getTime() - istOffset).toISOString();
+    
             // Query the Supabase Data_Log table
             const { data, error } = await supabase
                 .from('Data_Log')
                 .select('*')
-                .gte('timestamp', new Date(start).toISOString()) // Greater than or equal to start date
-                .lte('timestamp', new Date(end).toISOString()); // Less than or equal to end date
- // Less than or equal to end date
-            console.log("🚀 ~ app.get ~ data:", data)
+                .gte('timestamp', istStart) // Greater than or equal to start date
+                .lte('timestamp', istEnd); // Less than or equal to end date
+    
+            console.log("🚀 ~ app.get ~ data:", data);
     
             if (error) {
                 throw error;

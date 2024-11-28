@@ -39,14 +39,9 @@ export default function Analysis() {
   }, []);
 
   const knnPrediction = (data: number[], k: number) => {
-    if (data.length < k) return null; // Ensure there are enough data points
-
-    // Find the last `k` points
+    if (data.length < k) return null;
     const lastKPoints = data.slice(-k);
-
-    // Calculate the mean of the last `k` points
     const predictedValue = lastKPoints.reduce((sum, value) => sum + value, 0) / k;
-
     return predictedValue;
   };
 
@@ -54,7 +49,6 @@ export default function Analysis() {
     const temperatures = data.map((log) => log.value1);
     const humidities = data.map((log) => log.value2);
 
-    // Calculating metrics
     const averageTemperature = calculateAverage(temperatures);
     const averageHumidity = calculateAverage(humidities);
     const minTemperature = Math.min(...temperatures);
@@ -66,11 +60,10 @@ export default function Analysis() {
     const correlation = calculateCorrelation(temperatures, humidities);
     const movingAverage = calculateMovingAverage(temperatures, 5);
     const linearPrediction = linearRegressionPrediction(temperatures);
-    const knnPredictedTemperature = knnPrediction(temperatures, 3); // Using k=3
+    const knnPredictedTemperature = knnPrediction(temperatures, 3);
     const tempChange = ((temperatures[temperatures.length - 1] - temperatures[0]) / temperatures[0]) * 100;
     const humidityChange = ((humidities[humidities.length - 1] - humidities[0]) / humidities[0]) * 100;
 
-    // Setting predictions
     setPredictions([
       { label: 'Average Temperature', value: averageTemperature.toFixed(2), summary: 'Mean temperature over the data period.' },
       { label: 'Average Humidity', value: averageHumidity.toFixed(2), summary: 'Mean humidity over the data period.' },
@@ -89,9 +82,7 @@ export default function Analysis() {
     ]);
   };
 
-  const calculateAverage = (data: number[]) => {
-    return data.reduce((sum, value) => sum + value, 0) / data.length;
-  };
+  const calculateAverage = (data: number[]) => data.reduce((sum, value) => sum + value, 0) / data.length;
 
   const calculateStandardDeviation = (data: number[]) => {
     const mean = calculateAverage(data);
@@ -119,7 +110,7 @@ export default function Analysis() {
 
   const linearRegressionPrediction = (temperatures: number[]) => {
     const n = temperatures.length;
-    const x = Array.from({ length: n }, (_, i) => i); // x values as index
+    const x = Array.from({ length: n }, (_, i) => i);
     const y = temperatures;
 
     const xMean = calculateAverage(x);
@@ -128,8 +119,8 @@ export default function Analysis() {
     const b1 = x.reduce((acc, xi, i) => acc + (xi - xMean) * (y[i] - yMean), 0) / x.reduce((acc, xi) => acc + Math.pow(xi - xMean, 2), 0);
     const b0 = yMean - b1 * xMean;
 
-    const nextIndex = n; // Predict for the next index
-    return b0 + b1 * nextIndex; // y = b0 + b1 * x
+    const nextIndex = n;
+    return b0 + b1 * nextIndex;
   };
 
   const chartData = {
@@ -179,6 +170,21 @@ export default function Analysis() {
     }]
   };
 
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+      },
+    },
+    scales: {
+      x: {
+        ticks: { autoSkip: true, maxTicksLimit: 10 },
+      },
+    },
+  };
+
   const getCardBackground = (index) => {
     const colors = [
       'bg-red-100 border-red-200',
@@ -191,39 +197,42 @@ export default function Analysis() {
 
   return (
     <DashboardLayout>
-      <div className="p-6 md:p-8 rounded-lg shadow-md flex flex-col items-center bg-gradient-to-r from-gray-50 to-gray-100">
-          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-gray-900">Analysis & Predications</h1>
-          <p className="text-gray-600 mb-4 text-center">Analyze and visualize data and get predictions here</p>
+      <div className="container mx-auto px-4">
+        <h2 className="text-xl font-semibold my-4 text-gray-700">Data Analytics and Visualization</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {loading ? (
+            <p className="text-center">Loading...</p>
+          ) : (
+            predictions.map((prediction, index) => (
+              <div key={index} className={`rounded-md border p-4 ${getCardBackground(index)}`}>
+                <h3 className="font-semibold text-gray-800">{prediction.label}</h3>
+                <p className="text-xl text-gray-600">{prediction.value}</p>
+                <small className="text-gray-500">{prediction.summary}</small>
+              </div>
+            ))
+          )}
         </div>
-      <div className="p-8">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">Data Analysis</h2>
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 text-gray-700">
-              {predictions.map((prediction, index) => (
-                <div
-                  key={index}
-                  className={`border rounded-lg p-4 ${getCardBackground(index)} shadow-md`}
-                  title={prediction.summary}
-                >
-                  <h3 className="font-bold">{prediction.label}</h3>
-                  <p>{prediction.value}</p>
-                </div>
-              ))}
-            </div>
 
-            <h3 className="text-lg font-bold mb-4 text-gray-700">Temperature & Humidity Trends</h3>
-            <Line data={chartData} />
+        <div className="my-8">
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Temperature and Humidity Trends</h3>
+          <div className="h-96">
+            <Line data={chartData} options={options} />
+          </div>
+        </div>
 
-            <h3 className="text-lg font-bold mb-4 mt-8 text-gray-700">Averages Comparison</h3>
-            <Bar data={averagesData} />
+        <div className="my-8">
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Average Temperature vs Humidity</h3>
+          <div className="h-96">
+            <Bar data={averagesData} options={options} />
+          </div>
+        </div>
 
-            <h3 className="text-lg font-bold mb-4 mt-8 text-gray-700">Temperature vs Humidity Correlation</h3>
-            <Scatter data={correlationData} />
-          </>
-        )}
+        <div className="my-8">
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Scatter Plot: Temperature vs Humidity</h3>
+          <div className="h-96">
+            <Scatter data={correlationData} options={options} />
+          </div>
+        </div>
       </div>
     </DashboardLayout>
   );
