@@ -9,7 +9,7 @@ import { supabase } from '../../supabaseClient';
 // Register all necessary components
 Chart.register(...registerables);
 
-export function GraphVisualization() {
+const GraphVisualization: React.FC = () => {
   const [temperatureData, setTemperatureData] = useState<number[]>([]);
   const [humidityData, setHumidityData] = useState<number[]>([]);
   const [labels, setLabels] = useState<string[]>([]);
@@ -272,3 +272,5 @@ export function GraphVisualization() {
     </DashboardLayout>
   );
 }
+
+export default GraphVisualization;

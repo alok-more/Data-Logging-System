@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/supabaseClient';
 import { DashboardLayout } from '../organization-dashboard/page';
 
-export function Users() {
+const Users() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -183,3 +183,5 @@ export function Users() {
     </DashboardLayout>
   );
 }
+
+export default Users;

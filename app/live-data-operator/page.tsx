@@ -8,7 +8,7 @@ import { Chart, registerables } from 'chart.js';
 // Register all necessary components
 Chart.register(...registerables);
 
-export function LiveDataOperator() {
+function LiveDataOperator() {
   const [data, setData] = useState<number[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -218,3 +218,5 @@ export function LiveDataOperator() {
     </DashboardLayout>
   );
 }
+
+export default LiveDataOperator;

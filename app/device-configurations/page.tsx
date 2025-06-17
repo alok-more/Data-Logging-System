@@ -18,7 +18,7 @@ interface DeviceDetail {
   Port: string;
 }
 
-export function DeviceConfigurations() {
+function DeviceConfigurations(): JSX.Element {
   const [deviceDetails, setDeviceDetails] = useState<DeviceDetail[]>([]);
   const [loading, setLoading] = useState(true);
   const [newDevice, setNewDevice] = useState<DeviceDetail>({
@@ -152,3 +152,5 @@ export function DeviceConfigurations() {
     </DashboardLayout>
   );
 }
+
+export default DeviceConfigurations;

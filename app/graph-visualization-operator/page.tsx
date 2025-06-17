@@ -1,6 +1,6 @@
 'use client';
 
-import { DashboardLayout } from '../employee-dashboard/page'; // Adjust the import path as necessary
+import DashboardLayout from '../employee-dashboard/page'; // Adjust the import path as necessary
 import { useEffect, useState } from 'react';
 import { Line, Bar, Scatter, Pie } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
@@ -10,7 +10,7 @@ import { supabase } from '../../supabaseClient';
 Chart.register(...registerables);
 
 
-export function GraphVisualizationOperator() {
+const GraphVisualizationOperator: React.FC = () => {
     const [temperatureData, setTemperatureData] = useState<number[]>([]);
     const [humidityData, setHumidityData] = useState<number[]>([]);
     const [labels, setLabels] = useState<string[]>([]);
@@ -271,3 +271,4 @@ export function GraphVisualizationOperator() {
     );
   }
   
+export default GraphVisualizationOperator;

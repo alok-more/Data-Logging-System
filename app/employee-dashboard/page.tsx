@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export function DashboardLayout({ children }: { children: React.ReactNode }) {
+const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false); // State for Help and Hints
@@ -27,7 +27,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     setIsHelpOpen((prev) => !prev); // Toggle Help and Hints section
   };
 
-  const handleNavigation = (path) => {
+  const handleNavigation = (path: string) => {
     setIsLoading(true);
     router.push(path);
     
@@ -151,3 +151,5 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
+
+export default DashboardLayout;

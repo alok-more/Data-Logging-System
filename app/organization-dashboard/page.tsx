@@ -7,7 +7,7 @@ interface DashboardLayoutProps {
   children: ReactNode;
 }
 
-export function DashboardLayout({ children }: DashboardLayoutProps) {
+const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -184,3 +184,5 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     </div>
   );
 }
+
+export default DashboardLayout;

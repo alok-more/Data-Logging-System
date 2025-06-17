@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { DashboardLayout } from '../employee-dashboard/page'; // Adjust the import path as necessary
 import { supabase } from '../../supabaseClient';
 
-export function HistoryData() {
+const HistoryData: React.FC = () => {
     const [dataLogs, setDataLogs] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -197,3 +197,4 @@ export function HistoryData() {
     );
   }
   
+export default HistoryData;
