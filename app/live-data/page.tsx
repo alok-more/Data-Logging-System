@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
-import { DashboardLayout } from "../organization-dashboard/page";
+import  DashboardLayout  from "../organization-dashboard/page";
 
 // Register all necessary components
 Chart.register(...registerables);

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { DashboardLayout } from '../organization-dashboard/page';
+import DashboardLayout from '../organization-dashboard/page';
 import { supabase } from '../../supabaseClient';
 import { Chart, registerables } from 'chart.js';
 import { Line, Bar, Scatter } from 'react-chartjs-2';

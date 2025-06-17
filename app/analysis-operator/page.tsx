@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '../../supabaseClient';
-import { DashboardLayout } from '../employee-dashboard/page';
+import DashboardLayout from '../employee-dashboard/page';
 import { Chart, registerables } from 'chart.js';
 import { Line, Bar, Scatter } from 'react-chartjs-2';
 import 'react-tooltip/dist/react-tooltip.css';
