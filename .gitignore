@@ -1,0 +1,89 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+.next/
+out/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Debugging
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Editor directories and files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm/
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Binaries for packages
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Coverage directory used by testing tools
+coverage/
+
+# Next.js export folders
+exported/
+
+# TypeScript
+*.tsbuildinfo
+
+# Optional ESLint cache
+.eslintcache
+
+# Storybook build
+storybook-static/
+
+# JetBrains IDEs
+*.iml
+.idea/
+
+# macOS files
+.AppleDouble
+.LSOverride
+
+# VS Code settings
+.history/
+
+# Tailwind CSS JIT cache
+.tailwind.config.js.backup
+
+# Others
+*.log
+*.tgz
+*.zip
+*.bak
+*.tmp

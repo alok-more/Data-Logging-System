@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import DashboardLayout from '../employee-dashboard/page'; // Adjust the import path as necessary
+import { DashboardLayout } from '../employee-dashboard/page'; // Adjust the import path as necessary
 import { supabase } from '../../supabaseClient';
 
-export default function HistoryData() {
+export function HistoryData() {
     const [dataLogs, setDataLogs] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);

@@ -8,7 +8,7 @@ import DashboardLayout from "../organization-dashboard/page";
 // Register all necessary components
 Chart.register(...registerables);
 
-export default function LiveData() {
+export function LiveData() {
   const [data, setData] = useState<number[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

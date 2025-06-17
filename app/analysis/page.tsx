@@ -10,7 +10,7 @@ import 'react-tooltip/dist/react-tooltip.css';
 // Register all necessary components from Chart.js
 Chart.register(...registerables);
 
-export default function Analysis() {
+export function Analysis() {
   const [data, setData] = useState<any[]>([]);
   const [predictions, setPredictions] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);

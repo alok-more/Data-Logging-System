@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description: "Dashboard to visualize and analyze data for data loggers",
 };
 
-export default function RootLayout({
+export function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

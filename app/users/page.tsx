@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/supabaseClient';
-import DashboardLayout from '../organization-dashboard/page';
+import { DashboardLayout } from '../organization-dashboard/page';
 
-export default function Users() {
+export function Users() {
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);

@@ -9,7 +9,7 @@ import { supabase } from '../../supabaseClient';
 // Register all necessary components
 Chart.register(...registerables);
 
-export default function GraphVisualization() {
+export function GraphVisualization() {
   const [temperatureData, setTemperatureData] = useState<number[]>([]);
   const [humidityData, setHumidityData] = useState<number[]>([]);
   const [labels, setLabels] = useState<string[]>([]);
@@ -59,11 +59,15 @@ export default function GraphVisualization() {
     };
   }, []);
 
-  const movingAverage = (data, windowSize) => {
-    const result = [];
+  interface MovingAverageFn {
+    (data: number[], windowSize: number): number[];
+  }
+
+  const movingAverage: MovingAverageFn = (data, windowSize) => {
+    const result: number[] = [];
     for (let i = 0; i <= data.length - windowSize; i++) {
-      const window = data.slice(i, i + windowSize);
-      const average = window.reduce((sum, val) => sum + val, 0) / windowSize;
+      const window: number[] = data.slice(i, i + windowSize);
+      const average: number = window.reduce((sum, val) => sum + val, 0) / windowSize;
       result.push(average);
     }
     return result;

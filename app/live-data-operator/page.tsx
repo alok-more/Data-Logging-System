@@ -1,6 +1,6 @@
 'use client';
 
-import DashboardLayout from '../employee-dashboard/page'; // Adjust the import path as necessary
+import { DashboardLayout } from '../employee-dashboard/page'; // Adjust the import path as necessary
 import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
@@ -8,7 +8,7 @@ import { Chart, registerables } from 'chart.js';
 // Register all necessary components
 Chart.register(...registerables);
 
-export default function LiveDataOperator() {
+export function LiveDataOperator() {
   const [data, setData] = useState<number[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

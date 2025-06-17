@@ -1,6 +1,6 @@
 'use client';
 
-import DashboardLayout from '../employee-dashboard/page'; // Adjust the import path as necessary
+import { DashboardLayout } from '../employee-dashboard/page'; // Adjust the import path as necessary
 import { useEffect, useState } from 'react';
 import { Line, Bar, Scatter, Pie } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
@@ -10,7 +10,7 @@ import { supabase } from '../../supabaseClient';
 Chart.register(...registerables);
 
 
-export default function GraphVisualizationOperator() {
+export function GraphVisualizationOperator() {
     const [temperatureData, setTemperatureData] = useState<number[]>([]);
     const [humidityData, setHumidityData] = useState<number[]>([]);
     const [labels, setLabels] = useState<string[]>([]);
@@ -61,8 +61,8 @@ export default function GraphVisualizationOperator() {
       };
     }, []);
   
-    const movingAverage = (data, windowSize) => {
-      const result = [];
+    const movingAverage = (data: number[], windowSize: number): number[] => {
+      const result: number[] = [];
       for (let i = 0; i <= data.length - windowSize; i++) {
         const window = data.slice(i, i + windowSize);
         const average = window.reduce((sum, val) => sum + val, 0) / windowSize;

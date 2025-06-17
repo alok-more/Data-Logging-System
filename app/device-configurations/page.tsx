@@ -18,7 +18,7 @@ interface DeviceDetail {
   Port: string;
 }
 
-export default function DeviceConfigurations() {
+export function DeviceConfigurations() {
   const [deviceDetails, setDeviceDetails] = useState<DeviceDetail[]>([]);
   const [loading, setLoading] = useState(true);
   const [newDevice, setNewDevice] = useState<DeviceDetail>({
