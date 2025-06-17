@@ -1,3 +1,5 @@
+// app/layout.tsx
+
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -18,7 +20,8 @@ export const metadata: Metadata = {
   description: "Dashboard to visualize and analyze data for data loggers",
 };
 
-export function RootLayout({
+// ✅ Use default export — required by Next.js
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
