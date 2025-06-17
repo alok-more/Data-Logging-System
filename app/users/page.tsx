@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/supabaseClient';
-import  DashboardLayout  from '../organization-dashboard/page';
+import  DashboardLayout  from '../organization-dashboard/layout';
 
 const Users: React.FC = () => {
   const [users, setUsers] = useState<any[]>([]);
