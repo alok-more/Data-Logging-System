@@ -1,6 +1,6 @@
 'use client';
 
-import DashboardLayout from '../employee-dashboard/page'; // Adjust the import path as necessary
+import DashboardLayout from '../employee-dashboard/layout'; // Adjust the import path as necessary
 import { useEffect, useState } from 'react';
 import { Line, Bar, Scatter, Pie } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';

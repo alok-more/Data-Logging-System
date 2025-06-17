@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import  DashboardLayout  from '../employee-dashboard/page'; // Adjust the import path as necessary
+import  DashboardLayout  from '../employee-dashboard/layout'; // Adjust the import path as necessary
 import { supabase } from '../../supabaseClient';
 
 const HistoryData: React.FC = () => {
