@@ -166,7 +166,7 @@ export function AnalysisOperator() {
       }]
     };
   
-    const getCardBackground = (index) => {
+    const getCardBackground = (index: number) => {
       const colors = [
         'bg-red-100 border-red-200',
         'bg-blue-100 border-blue-200',
@@ -178,8 +178,26 @@ export function AnalysisOperator() {
       return colors[index % colors.length];
     };
     
-    const getIconClass = (label) => {
-      const icons = {
+    const iconLabels = [
+      'Average Temperature',
+      'Average Humidity',
+      'Min Temperature',
+      'Max Temperature',
+      'Min Humidity',
+      'Max Humidity',
+      'Temperature Standard Deviation',
+      'Humidity Standard Deviation',
+      'Correlation',
+      'Next Temperature Prediction',
+      '5-Point Moving Average',
+      'Temperature Change (%)',
+      'Humidity Change (%)',
+    ] as const;
+
+    type IconLabel = typeof iconLabels[number];
+
+    const getIconClass = (label: string) => {
+      const icons: Record<IconLabel, string> = {
         'Average Temperature': 'fas fa-thermometer-half text-red-500',
         'Average Humidity': 'fas fa-tint text-blue-500',
         'Min Temperature': 'fas fa-arrow-down text-green-500',
@@ -194,7 +212,7 @@ export function AnalysisOperator() {
         'Temperature Change (%)': 'fas fa-percent text-blue-600',
         'Humidity Change (%)': 'fas fa-percent text-blue-600',
       };
-      return icons[label] || 'fas fa-info-circle text-gray-500';
+      return icons[label as IconLabel] || 'fas fa-info-circle text-gray-500';
     };
     
   

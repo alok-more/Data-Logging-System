@@ -185,7 +185,7 @@ export function Analysis() {
     },
   };
 
-  const getCardBackground = (index) => {
+  const getCardBackground = (index: number) => {
     const colors = [
       'bg-red-100 border-red-200',
       'bg-blue-100 border-blue-200',
